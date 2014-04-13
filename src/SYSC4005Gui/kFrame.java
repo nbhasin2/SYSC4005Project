@@ -2,6 +2,7 @@ package SYSC4005Gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.TextArea;
 import java.awt.TextField;
 
 import javax.swing.JFrame;
@@ -13,6 +14,8 @@ import java.awt.Font;
 import javax.swing.JMenuBar;
 import java.awt.Button;
 import java.awt.Color;
+
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -25,6 +28,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+import javax.swing.JButton;
 
 public class kFrame extends JFrame {
 
@@ -49,9 +53,9 @@ public class kFrame extends JFrame {
 	private JLabel lblMeanvalue;
 	private JLabel lblUpperci;
 	private JLabel lblLowerci;
-	private JTextField textField_14;
-	private JTextField textField_15;
-	private JTextField textField_16;
+	private JTextArea textField_14;
+	private JTextArea textField_15;
+	private JTextArea textField_16;
 	public kFrame frameThis;
 	private JLabel lblP_1;
 	private JTextField textField_17;
@@ -117,6 +121,7 @@ public class kFrame extends JFrame {
 	private JRadioButton rdbtnTopology;
 	private Button button_3;
 	private Button button_4;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -153,11 +158,12 @@ public class kFrame extends JFrame {
 		button = new Button("Topology1 - Round Robin");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				 lblNewLabel.setText("Running");
 			int timeSlots = Integer.parseInt(textField_2.getText());
 			int N = Integer.parseInt(textField_5.getText());
 			 double probability[] = new double[N];
 			 int iterations= Integer.parseInt(textField_8.getText());
-			 double lambda = Double.parseDouble(txtK.getText());
+			 double lambda1 = Double.parseDouble(txtK.getText());
 			 probability[0] = Double.parseDouble(textField_13.getText());
 			 probability[1]	= Double.parseDouble(textField_17.getText());
 			 probability[2] = Double.parseDouble(textField_20.getText());
@@ -165,23 +171,48 @@ public class kFrame extends JFrame {
 			 probability[4]	= Double.parseDouble(textField_26.getText());	 
 			 if(checkbox.getState())
 			 {
+				 /*
 				 double lambdas[] = new double[10]; 
 				 for (int i = 0; i < N; i++) {
 						//probability[i] = Double.parseDouble(textField_11.getText());
 						lambdas[i] = lambda*(i+1);
 					}
-				 Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
+				Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
 				top.runAndPrintToFile("Topology3-LCQ.txt");
+				*/
+				 for(int j=0;j<10;j++)
+				 {
+					 double lambda = lambda1*(j+1);
+					 double lambdas[] = new double[N];
+					
+					 
+					 if(j==9)
+					 {
+						 lblNewLabel.setText("Done !!");
+					 }
+
+				
+					 
+					 for (int i = 0; i < N; i++) {
+						 //probability[i] = Double.parseDouble(textField_11.getText());
+						 lambdas[i] = lambda;
+					 }
+					 
+					 Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
+					 top.runAndPrintToFile("Topology3-LCQ.txt");
+				  }
 			 }
 			 else
 			 {
 				 double lambdas[] = new double[N];
 				 for (int i = 0; i < N; i++) {
 						//probability[i] = Double.parseDouble(textField_11.getText());
-						lambdas[i] = lambda;
+						lambdas[i] = lambda1;
 					}
+				 lblNewLabel.setText("Done !!");
 				Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
 				top.runAndPrintToFile("Topology3-LCQ.txt");
+				
 			 }
 			}
 		});
@@ -191,19 +222,22 @@ public class kFrame extends JFrame {
 		button_1 = new Button("Topology1 - Randomized");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				 lblNewLabel.setText("Running...");
 			int timeSlots = Integer.parseInt(textField_3.getText());
 			int N = Integer.parseInt(textField_6.getText());
 			 double probability[] = new double[N];
 			 
 			 int iterations= Integer.parseInt(textField_9.getText());
-			 double lambda = Double.parseDouble(textField.getText());
+			 double lambda1 = Double.parseDouble(textField.getText());
 			 probability[0] = Double.parseDouble(textField_12.getText());
 			 probability[1]	= Double.parseDouble(textField_18.getText());
 			 probability[2] = Double.parseDouble(textField_21.getText());
 			 probability[3]	= Double.parseDouble(textField_24.getText());
-			 probability[4]	= Double.parseDouble(textField_27.getText());	 
+			 probability[4]	= Double.parseDouble(textField_27.getText());	
+			
 			 if(checkbox.getState())
 			 {
+				 /*
 				 double lambdas[] = new double[10]; 
 				 for (int i = 0; i < N; i++) {
 						//probability[i] = Double.parseDouble(textField_11.getText());
@@ -211,14 +245,39 @@ public class kFrame extends JFrame {
 					}
 				 Topology1 top = new Topology1(timeSlots, probability, lambdas, 3, iterations,frameThis);
 				top.runAndPrintToFile("Topology3-LCQ.txt");
+				*/
+				 for(int j=0;j<10;j++)
+				 {
+
+					 if(j==9)
+					 {
+						 lblNewLabel.setText("Done !!");
+					 }
+					
+					 
+					 double lambda = lambda1*(j+1);
+					 System.out.println("lambda "+j+" "+lambda);
+					 double lambdas[] = new double[N];
+					 
+					 for (int i = 0; i < N; i++) {
+						 //probability[i] = Double.parseDouble(textField_11.getText());
+						 lambdas[i] = lambda;
+					 }
+					 
+					 Topology1 top = new Topology1(timeSlots, probability, lambdas, 3, iterations,frameThis);
+					 top.runAndPrintToFile("Topology3-LCQ.txt");
+				  }
+				
+				
 			 }
 			 else
 			 {
 				 double lambdas[] = new double[N];
 				 for (int i = 0; i < N; i++) {
 						//probability[i] = Double.parseDouble(textField_11.getText());
-						lambdas[i] = lambda;
+						lambdas[i] = lambda1;
 					}
+				 lblNewLabel.setText("Done !!");
 				Topology1 top = new Topology1(timeSlots, probability, lambdas, 3, iterations,frameThis);
 				top.runAndPrintToFile("Topology3-LCQ.txt");
 			 }
@@ -231,13 +290,14 @@ public class kFrame extends JFrame {
 		button_2 = new Button("Topology1 - LCQ");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblNewLabel.setText("Running...");
 			int timeSlots = Integer.parseInt(textField_7.getText());
 			int N = Integer.parseInt(textField_7.getText());
 			 double probability[] = new double[N];
 
 			 
 			 int iterations= Integer.parseInt(textField_10.getText());
-			 double lambda = Double.parseDouble(textField_1.getText());
+			 double lambda1 = Double.parseDouble(textField_1.getText());
 			 probability[0] = Double.parseDouble(textField_11.getText());
 			 probability[1]	= Double.parseDouble(textField_19.getText());
 			 probability[2] = Double.parseDouble(textField_22.getText());
@@ -245,6 +305,7 @@ public class kFrame extends JFrame {
 			 probability[4]	= Double.parseDouble(textField_28.getText());			 
 			 if(checkbox.getState())
 			 {
+				 /*
 				 double lambdas[] = new double[10]; 
 				 for (int i = 0; i < N; i++) {
 						//probability[i] = Double.parseDouble(textField_11.getText());
@@ -252,16 +313,40 @@ public class kFrame extends JFrame {
 					}
 				 Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
 				top.runAndPrintToFile("Topology3-LCQ.txt");
+				*/
+				 
+				 for(int j=0;j<10;j++)
+				 {
+					 
+					 double lambda = lambda1*(j+1);
+					 double lambdas[] = new double[N];
+					 
+					 if(j==9)
+					 {
+						 lblNewLabel.setText("Done !!");
+					 }
+					 
+				
+					 for (int i = 0; i < N; i++) {
+						 //probability[i] = Double.parseDouble(textField_11.getText());
+						 lambdas[i] = lambda;
+					 }
+					 
+					 Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
+					 top.runAndPrintToFile("Topology3-LCQ.txt");
+				  }
 			 }
 			 else
 			 {
 				 double lambdas[] = new double[N];
 				 for (int i = 0; i < N; i++) {
 						//probability[i] = Double.parseDouble(textField_11.getText());
-						lambdas[i] = lambda;
+						lambdas[i] = lambda1;
 					}
+				 lblNewLabel.setText("Done !!");
 				Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
 				top.runAndPrintToFile("Topology3-LCQ.txt");
+				
 			 }
 			 
 			 if(rdbtnNewRadioButton.isSelected())
@@ -397,34 +482,34 @@ public class kFrame extends JFrame {
 		
 		lblSysc_1 = new JLabel("Simulation Result");
 		lblSysc_1.setFont(new Font("Calibri", Font.BOLD, 21));
-		lblSysc_1.setBounds(148, 360, 155, 16);
+		lblSysc_1.setBounds(144, 354, 155, 16);
 		contentPane.add(lblSysc_1);
 		
 		lblMeanvalue = new JLabel("MeanValue");
-		lblMeanvalue.setBounds(15, 396, 73, 16);
+		lblMeanvalue.setBounds(11, 387, 73, 16);
 		contentPane.add(lblMeanvalue);
 		
 		lblUpperci = new JLabel("UpperCI");
-		lblUpperci.setBounds(15, 430, 73, 16);
+		lblUpperci.setBounds(11, 421, 73, 16);
 		contentPane.add(lblUpperci);
 		
 		lblLowerci = new JLabel("LowerCI");
-		lblLowerci.setBounds(15, 458, 73, 16);
+		lblLowerci.setBounds(11, 449, 73, 16);
 		contentPane.add(lblLowerci);
 		
-		textField_14 = new JTextField();
-		textField_14.setBounds(119, 388, 257, 28);
+		textField_14 = new JTextArea();
+		textField_14.setBounds(115, 379, 257, 28);
 		contentPane.add(textField_14);
 		textField_14.setColumns(10);
-		
-		textField_15 = new JTextField();
+
+		textField_15 = new JTextArea();// new JTextField();
 		textField_15.setColumns(10);
-		textField_15.setBounds(119, 424, 257, 28);
+		textField_15.setBounds(115, 414, 257, 28);
 		contentPane.add(textField_15);
 		
-		textField_16 = new JTextField();
+		textField_16 = new JTextArea();//new JTextField();
 		textField_16.setColumns(10);
-		textField_16.setBounds(119, 452, 257, 28);
+		textField_16.setBounds(115, 449, 257, 28);
 		contentPane.add(textField_16);
 		
 		lblP_1 = new JLabel("p2");
@@ -526,7 +611,7 @@ public class kFrame extends JFrame {
 		
 		lblProjectProperties = new JLabel("Simulation Properties");
 		lblProjectProperties.setFont(new Font("Calibri", Font.BOLD, 21));
-		lblProjectProperties.setBounds(467, 360, 198, 16);
+		lblProjectProperties.setBounds(467, 354, 198, 16);
 		contentPane.add(lblProjectProperties);
 		
 		rdbtnNewRadioButton = new JRadioButton("Topology 1 - Show Graph");
@@ -734,20 +819,41 @@ public class kFrame extends JFrame {
 		separator_4.setOrientation(SwingConstants.VERTICAL);
 		separator_4.setBounds(227, 225, 12, 118);
 		contentPane.add(separator_4);
+		
+		JButton btnClearall = new JButton("ClearAll");
+		btnClearall.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textField_14.setText("");
+				textField_15.setText("");
+				textField_16.setText("");
+				lblNewLabel.setText("--");
+			}
+		});
+		btnClearall.setBounds(3, 348, 117, 29);
+		contentPane.add(btnClearall);
+		
+		lblNewLabel = new JLabel("Not Running");
+		lblNewLabel.setBounds(617, 461, 230, 16);
+		contentPane.add(lblNewLabel);
+	}
+	
+	public boolean checkboxTicked()
+	{
+		return checkbox.getState();
 	}
 	
 	//mean
-	public JTextField getTF14()
+	public JTextArea getTF14()
 	{
 		return textField_14;
 	}
 	//Upper CI
-	public JTextField getTF15()
+	public JTextArea getTF15()
 	{
 		return textField_15;
 	}
 	//Lower CI
-	public JTextField getTF16()
+	public JTextArea getTF16()
 	{
 		return textField_16;
 	}
@@ -767,12 +873,12 @@ public class kFrame extends JFrame {
 		true, // tooltips?
 		false // URLs?
 		);
+		
+		//JFreeChart chart2 = ChartFactory.create
 		// create and display a frame...
 		ChartFrame frame = new ChartFrame("First", chart);
 		frame.pack();
 		frame.setVisible(true);
 
 	}
-	
-
 }

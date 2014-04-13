@@ -210,9 +210,18 @@ public final static int SERVER_IDLE = -1;
 		
 		double lower = mean - interval;
 		double upper = mean + interval;
-		kfrm.getTF14().setText(""+mean);
-		kfrm.getTF15().setText(""+upper);
-		kfrm.getTF16().setText(""+lower);
+		if(kfrm.checkboxTicked())
+		{
+		kfrm.getTF14().append(""+mean+",");
+		kfrm.getTF15().append(""+upper+",");
+		kfrm.getTF16().append(""+lower+",");
+		}
+		else
+		{
+			kfrm.getTF14().setText(""+mean);
+			kfrm.getTF15().setText(""+upper);
+			kfrm.getTF16().setText(""+lower);
+		}
 		/*
 		PrintWriter writer = null;
 		try {
