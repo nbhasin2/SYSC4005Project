@@ -192,6 +192,7 @@ public final static int SERVER_IDLE = -1;
 			reset();
 			simulateSystem();
 			totals[i] = getAverageQueueOccupancy();			
+			System.out.print(totals[i]+",");
 			total += totals[i];
 		}		
 		

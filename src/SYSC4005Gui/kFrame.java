@@ -46,6 +46,22 @@ public class kFrame extends JFrame {
 	private JTextField textField_15;
 	private JTextField textField_16;
 	public kFrame frameThis;
+	private JLabel label;
+	private JTextField textField_17;
+	private JTextField textField_18;
+	private JTextField textField_19;
+	private JLabel label_1;
+	private JTextField textField_20;
+	private JTextField textField_21;
+	private JTextField textField_22;
+	private JLabel label_2;
+	private JTextField textField_23;
+	private JTextField textField_24;
+	private JTextField textField_25;
+	private JLabel label_3;
+	private JTextField textField_26;
+	private JTextField textField_27;
+	private JTextField textField_28;
 
 	/**
 	 * Launch the application.
@@ -68,7 +84,7 @@ public class kFrame extends JFrame {
 	 */
 	public kFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 697, 418);
+		setBounds(100, 100, 847, 418);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -88,8 +104,13 @@ public class kFrame extends JFrame {
 			 double lambdas[] = new double[N];
 			 int iterations= Integer.parseInt(textField_8.getText());
 			 double lambda = Double.parseDouble(txtK.getText());
+			 probability[0] = Double.parseDouble(textField_13.getText());
+			 probability[1]	= Double.parseDouble(textField_17.getText());
+			 probability[2] = Double.parseDouble(textField_20.getText());
+			 probability[3]	= Double.parseDouble(textField_23.getText());
+			 probability[4]	= Double.parseDouble(textField_26.getText());	 
 				for (int i = 0; i < N; i++) {
-					probability[i] = Double.parseDouble(textField_13.getText());
+					//probability[i] = Double.parseDouble(textField_13.getText());
 					lambdas[i] = lambda;
 				}
 			Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
@@ -108,8 +129,13 @@ public class kFrame extends JFrame {
 			 double lambdas[] = new double[N];
 			 int iterations= Integer.parseInt(textField_9.getText());
 			 double lambda = Double.parseDouble(textField.getText());
+			 probability[0] = Double.parseDouble(textField_12.getText());
+			 probability[1]	= Double.parseDouble(textField_18.getText());
+			 probability[2] = Double.parseDouble(textField_21.getText());
+			 probability[3]	= Double.parseDouble(textField_24.getText());
+			 probability[4]	= Double.parseDouble(textField_27.getText());	 
 				for (int i = 0; i < N; i++) {
-					probability[i] = Double.parseDouble(textField_12.getText());
+					//probability[i] = Double.parseDouble(textField_12.getText());
 					lambdas[i] = lambda;
 				}
 			Topology1 top = new Topology1(timeSlots, probability, lambdas, 3, iterations,frameThis);
@@ -128,8 +154,13 @@ public class kFrame extends JFrame {
 			 double lambdas[] = new double[N];
 			 int iterations= Integer.parseInt(textField_10.getText());
 			 double lambda = Double.parseDouble(textField_1.getText());
+			 probability[0] = Double.parseDouble(textField_11.getText());
+			 probability[1]	= Double.parseDouble(textField_19.getText());
+			 probability[2] = Double.parseDouble(textField_22.getText());
+			 probability[3]	= Double.parseDouble(textField_25.getText());
+			 probability[4]	= Double.parseDouble(textField_28.getText());			 
 				for (int i = 0; i < N; i++) {
-					probability[i] = Double.parseDouble(textField_11.getText());
+					//probability[i] = Double.parseDouble(textField_11.getText());
 					lambdas[i] = lambda;
 				}
 			Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
@@ -233,7 +264,7 @@ public class kFrame extends JFrame {
 		textField_10.setBounds(495, 197, 44, 28);
 		contentPane.add(textField_10);
 		
-		lblP = new JLabel("p");
+		lblP = new JLabel("p1");
 		lblP.setBounds(583, 74, 22, 16);
 		contentPane.add(lblP);
 		
@@ -257,7 +288,7 @@ public class kFrame extends JFrame {
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(Color.GRAY);
-		separator.setBounds(6, 250, 685, 6);
+		separator.setBounds(6, 250, 837, 6);
 		contentPane.add(separator);
 		
 		JLabel lblSysc_1 = new JLabel("SYSC 4005 - Project Result");
@@ -291,6 +322,94 @@ public class kFrame extends JFrame {
 		textField_16.setColumns(10);
 		textField_16.setBounds(282, 360, 257, 28);
 		contentPane.add(textField_16);
+		
+		label = new JLabel("p1");
+		label.setBounds(639, 74, 22, 16);
+		contentPane.add(label);
+		
+		textField_17 = new JTextField();
+		textField_17.setText("1");
+		textField_17.setColumns(10);
+		textField_17.setBounds(630, 98, 44, 28);
+		contentPane.add(textField_17);
+		
+		textField_18 = new JTextField();
+		textField_18.setText("1");
+		textField_18.setColumns(10);
+		textField_18.setBounds(630, 148, 44, 28);
+		contentPane.add(textField_18);
+		
+		textField_19 = new JTextField();
+		textField_19.setText("1");
+		textField_19.setColumns(10);
+		textField_19.setBounds(630, 197, 44, 28);
+		contentPane.add(textField_19);
+		
+		label_1 = new JLabel("p1");
+		label_1.setBounds(693, 74, 22, 16);
+		contentPane.add(label_1);
+		
+		textField_20 = new JTextField();
+		textField_20.setText("1");
+		textField_20.setColumns(10);
+		textField_20.setBounds(684, 98, 44, 28);
+		contentPane.add(textField_20);
+		
+		textField_21 = new JTextField();
+		textField_21.setText("1");
+		textField_21.setColumns(10);
+		textField_21.setBounds(684, 148, 44, 28);
+		contentPane.add(textField_21);
+		
+		textField_22 = new JTextField();
+		textField_22.setText("1");
+		textField_22.setColumns(10);
+		textField_22.setBounds(684, 197, 44, 28);
+		contentPane.add(textField_22);
+		
+		label_2 = new JLabel("p1");
+		label_2.setBounds(749, 74, 22, 16);
+		contentPane.add(label_2);
+		
+		textField_23 = new JTextField();
+		textField_23.setText("1");
+		textField_23.setColumns(10);
+		textField_23.setBounds(740, 98, 44, 28);
+		contentPane.add(textField_23);
+		
+		textField_24 = new JTextField();
+		textField_24.setText("1");
+		textField_24.setColumns(10);
+		textField_24.setBounds(740, 148, 44, 28);
+		contentPane.add(textField_24);
+		
+		textField_25 = new JTextField();
+		textField_25.setText("1");
+		textField_25.setColumns(10);
+		textField_25.setBounds(740, 197, 44, 28);
+		contentPane.add(textField_25);
+		
+		label_3 = new JLabel("p1");
+		label_3.setBounds(808, 74, 22, 16);
+		contentPane.add(label_3);
+		
+		textField_26 = new JTextField();
+		textField_26.setText("1");
+		textField_26.setColumns(10);
+		textField_26.setBounds(799, 98, 44, 28);
+		contentPane.add(textField_26);
+		
+		textField_27 = new JTextField();
+		textField_27.setText("1");
+		textField_27.setColumns(10);
+		textField_27.setBounds(799, 148, 44, 28);
+		contentPane.add(textField_27);
+		
+		textField_28 = new JTextField();
+		textField_28.setText("1");
+		textField_28.setColumns(10);
+		textField_28.setBounds(799, 197, 44, 28);
+		contentPane.add(textField_28);
 	}
 	
 	//mean
