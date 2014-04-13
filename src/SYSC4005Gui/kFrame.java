@@ -21,6 +21,11 @@ import java.awt.event.ActionEvent;
 import java.awt.Checkbox;
 import javax.swing.JRadioButton;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+
 public class kFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -180,7 +185,7 @@ public class kFrame extends JFrame {
 			 }
 			}
 		});
-		button.setBounds(10, 117, 222, 29);
+		button.setBounds(3, 112, 222, 29);
 		contentPane.add(button);
 		
 		button_1 = new Button("Topology1 - Randomized");
@@ -218,8 +223,9 @@ public class kFrame extends JFrame {
 				top.runAndPrintToFile("Topology3-LCQ.txt");
 			 }
 			}
+			
 		});
-		button_1.setBounds(10, 147, 222, 29);
+		button_1.setBounds(3, 147, 222, 29);
 		contentPane.add(button_1);
 		
 		button_2 = new Button("Topology1 - LCQ");
@@ -257,10 +263,15 @@ public class kFrame extends JFrame {
 				Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
 				top.runAndPrintToFile("Topology3-LCQ.txt");
 			 }
+			 
+			 if(rdbtnNewRadioButton.isSelected())
+			 {
+				 DrawChart();
+			 }
 			
 			}
 		});
-		button_2.setBounds(10, 177, 222, 29);
+		button_2.setBounds(3, 177, 222, 29);
 		contentPane.add(button_2);
 		
 		lblTopology = new JLabel("Topology");
@@ -739,6 +750,28 @@ public class kFrame extends JFrame {
 	public JTextField getTF16()
 	{
 		return textField_16;
+	}
+	
+	public void DrawChart()
+	{
+		// create a dataset...
+		DefaultPieDataset data = new DefaultPieDataset();
+		data.setValue("Category 1", 43.2);
+		data.setValue("Category 2", 27.9);
+		data.setValue("Category 3", 79.5);
+		// create a chart...
+		JFreeChart chart = ChartFactory.createPieChart(
+		"Sample Pie Chart",
+		data,
+		true, // legend?
+		true, // tooltips?
+		false // URLs?
+		);
+		// create and display a frame...
+		ChartFrame frame = new ChartFrame("First", chart);
+		frame.pack();
+		frame.setVisible(true);
+
 	}
 	
 
