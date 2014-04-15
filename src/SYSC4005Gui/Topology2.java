@@ -33,6 +33,8 @@ public final static int SERVER_IDLE = -1;
 
 	private boolean testUni;
 	
+	private kFrame kfrm;
+	
 	/**
 	 * Construct the Simulation System.
 	 * 
@@ -44,7 +46,7 @@ public final static int SERVER_IDLE = -1;
 	 * @param iterations The number of iterations to run for
 	 * @param K The number of servers
 	 */
-	public Topology2(int timeSlotCount, double probability[][], double lambdas[], int policy, int iterations, int K) {
+	public Topology2(int timeSlotCount, double probability[][], double lambdas[], int policy, int iterations, int K, kFrame kf) {
 		assert(N == probability.length);
 		
 		//this.stream = stream;
@@ -54,7 +56,7 @@ public final static int SERVER_IDLE = -1;
 		this.Policy = policy;
 		//this.policy.setSimulationSystem(this);
 		this.iterations = iterations;
-		
+		kfrm = kf;
 		serverStates = new int[timeSlotCount][K];
 		queueLength = new int[N][timeSlotCount];		
 		queueIsconnected = new boolean[N][timeSlotCount][K];
@@ -62,7 +64,7 @@ public final static int SERVER_IDLE = -1;
 		this.K = K;
 	}
 	
-	public Topology2(boolean testUNI, double a, double b, int timeSlotCount, double probability[][], double lambdas[], int policy, int iterations, int K) {
+	public Topology2(boolean testUNI, double a, double b, int timeSlotCount, double probability[][], double lambdas[], int policy, int iterations, int K, kFrame kf) {
 		assert(N == probability.length);
 		this.testUni = testUNI;
 		num1 = a;
@@ -72,6 +74,7 @@ public final static int SERVER_IDLE = -1;
 		this.probability = probability;
 		this.lambdas = lambdas;
 		this.Policy = policy;
+		kfrm = kf;
 		//this.policy.setSimulationSystem(this);
 		this.iterations = iterations;
 		
@@ -235,7 +238,8 @@ public final static int SERVER_IDLE = -1;
 	/**
 	 * @param Prints the simulation results to the file specified.
 	 */
-	public void runAndPrintToFile(String fileName) {
+	public void runAndPrintToFile(String fileName, int progval) {
+		kfrm.prog().setValue(progval);
 		double totals[] = new double[iterations];	
 		double total = 0;
 		for (int i = 0; i < iterations; i++ ) {
@@ -263,10 +267,23 @@ public final static int SERVER_IDLE = -1;
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(new FileOutputStream(new File(fileName), true));
-			//writer.println("lambda, mean, lowerCI, upperCI");
+			writer.println("lambda, mean, lowerCI, upperCI");
 			writer.println(lambdas[0] + ", " + mean + ", " + lower + ", " + upper);
 			//writer.println("debug An = " + debugTotalAn);
-			//writer.println("Average = " + getAverageQueueOccupancy());
+			writer.println("Average = " + getAverageQueueOccupancy());
+			
+//			if(kfrm.checkboxTicked())
+//			{
+			kfrm.getTF14().append(""+mean+",");
+			kfrm.getTF15().append(""+upper+",");
+			kfrm.getTF16().append(""+lower+",");
+//			}
+//			else
+//			{
+//				kfrm.getTF14().setText(""+mean);
+//				kfrm.getTF15().setText(""+upper);
+//				kfrm.getTF16().setText(""+lower);
+//			}
 		
 		} catch (FileNotFoundException e) {
 		
