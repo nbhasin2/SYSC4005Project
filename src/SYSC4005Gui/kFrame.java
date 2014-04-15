@@ -117,11 +117,12 @@ public class kFrame extends JFrame {
 	private JLabel lblQueueLength;
 	private JLabel lblSysc_1;
 	private JLabel lblProjectProperties;
-	private JRadioButton rdbtnNewRadioButton;
-	private JRadioButton rdbtnTopology;
 	private Button button_3;
 	private Button button_4;
 	private JLabel lblNewLabel;
+	private JTextField textField_56;
+	private JTextField textField_57;
+	private Checkbox checkbox_1;
 
 	/**
 	 * Launch the application.
@@ -198,8 +199,16 @@ public class kFrame extends JFrame {
 						 lambdas[i] = lambda;
 					 }
 					 
+					 if(checkbox_1.getState())
+					 {
+						 Topology1 top = new Topology1(true,Double.parseDouble(textField_56.getText()),Double.parseDouble(textField_56.getText()),timeSlots, probability, lambdas, 1, iterations,frameThis);
+						 top.runAndPrintToFile("Topology3-LCQ.txt");
+					 }
+					 else
+					 {
 					 Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
 					 top.runAndPrintToFile("Topology3-LCQ.txt");
+					 }
 				  }
 			 }
 			 else
@@ -210,8 +219,18 @@ public class kFrame extends JFrame {
 						lambdas[i] = lambda1;
 					}
 				 lblNewLabel.setText("Done !!");
-				Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
-				top.runAndPrintToFile("Topology3-LCQ.txt");
+				 if(checkbox_1.getState())
+				 {
+					 Topology1 top = new Topology1(true,Double.parseDouble(textField_56.getText()),Double.parseDouble(textField_56.getText()),timeSlots, probability, lambdas, 1, iterations,frameThis);
+					 top.runAndPrintToFile("Topology3-LCQ.txt");
+				 }
+				 else
+				 {
+				 Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
+				 top.runAndPrintToFile("Topology3-LCQ.txt");
+				 }
+//				Topology1 top = new Topology1(timeSlots, probability, lambdas, 1, iterations,frameThis);
+//				top.runAndPrintToFile("Topology3-LCQ.txt");
 				
 			 }
 			}
@@ -264,8 +283,17 @@ public class kFrame extends JFrame {
 						 lambdas[i] = lambda;
 					 }
 					 
+					 if(checkbox_1.getState())
+					 {
+						 Topology1 top = new Topology1(true,Double.parseDouble(textField_56.getText()),Double.parseDouble(textField_56.getText()),timeSlots, probability, lambdas, 3, iterations,frameThis);
+						 top.runAndPrintToFile("Topology3-LCQ.txt");
+					 }
+					 else
+					 {
 					 Topology1 top = new Topology1(timeSlots, probability, lambdas, 3, iterations,frameThis);
 					 top.runAndPrintToFile("Topology3-LCQ.txt");
+					 }
+					 
 				  }
 				
 				
@@ -278,8 +306,18 @@ public class kFrame extends JFrame {
 						lambdas[i] = lambda1;
 					}
 				 lblNewLabel.setText("Done !!");
-				Topology1 top = new Topology1(timeSlots, probability, lambdas, 3, iterations,frameThis);
-				top.runAndPrintToFile("Topology3-LCQ.txt");
+				 if(checkbox_1.getState())
+				 {
+					 Topology1 top = new Topology1(true,Double.parseDouble(textField_56.getText()),Double.parseDouble(textField_56.getText()),timeSlots, probability, lambdas, 3, iterations,frameThis);
+					 top.runAndPrintToFile("Topology3-LCQ.txt");
+				 }
+				 else
+				 {
+				 Topology1 top = new Topology1(timeSlots, probability, lambdas, 3, iterations,frameThis);
+				 top.runAndPrintToFile("Topology3-LCQ.txt");
+				 }
+//				Topology1 top = new Topology1(timeSlots, probability, lambdas, 3, iterations,frameThis);
+//				top.runAndPrintToFile("Topology3-LCQ.txt");
 			 }
 			}
 			
@@ -331,9 +369,17 @@ public class kFrame extends JFrame {
 						 //probability[i] = Double.parseDouble(textField_11.getText());
 						 lambdas[i] = lambda;
 					 }
-					 
+					 if(checkbox_1.getState())
+					 {
+						 Topology1 top = new Topology1(true,Double.parseDouble(textField_56.getText()),Double.parseDouble(textField_56.getText()),timeSlots, probability, lambdas, 2, iterations,frameThis);
+						 top.runAndPrintToFile("Topology3-LCQ.txt");
+					 }
+					 else
+					 {
 					 Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
 					 top.runAndPrintToFile("Topology3-LCQ.txt");
+					 }
+
 				  }
 			 }
 			 else
@@ -344,15 +390,22 @@ public class kFrame extends JFrame {
 						lambdas[i] = lambda1;
 					}
 				 lblNewLabel.setText("Done !!");
-				Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
-				top.runAndPrintToFile("Topology3-LCQ.txt");
+				 if(checkbox_1.getState())
+				 {
+					 Topology1 top = new Topology1(true,Double.parseDouble(textField_56.getText()),Double.parseDouble(textField_56.getText()),timeSlots, probability, lambdas, 2, iterations,frameThis);
+					 top.runAndPrintToFile("Topology3-LCQ.txt");
+				 }
+				 else
+				 {
+				 Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
+				 top.runAndPrintToFile("Topology3-LCQ.txt");
+				 }
+//				Topology1 top = new Topology1(timeSlots, probability, lambdas, 2, iterations,frameThis);
+//				top.runAndPrintToFile("Topology3-LCQ.txt");
 				
 			 }
 			 
-			 if(rdbtnNewRadioButton.isSelected())
-			 {
-				 DrawChart();
-			 }
+			
 			
 			}
 		});
@@ -601,7 +654,7 @@ public class kFrame extends JFrame {
 		contentPane.add(textField_28);
 		
 		checkbox = new Checkbox("Enable lambda run from 1 to 10 ");
-		checkbox.setBounds(405, 389, 257, 23);
+		checkbox.setBounds(404, 421, 257, 23);
 		contentPane.add(checkbox);
 		
 		separator_1 = new JSeparator();
@@ -613,14 +666,6 @@ public class kFrame extends JFrame {
 		lblProjectProperties.setFont(new Font("Calibri", Font.BOLD, 21));
 		lblProjectProperties.setBounds(467, 354, 198, 16);
 		contentPane.add(lblProjectProperties);
-		
-		rdbtnNewRadioButton = new JRadioButton("Topology 1 - Show Graph");
-		rdbtnNewRadioButton.setBounds(402, 426, 198, 23);
-		contentPane.add(rdbtnNewRadioButton);
-		
-		rdbtnTopology = new JRadioButton("Topology 2 - Show Graph");
-		rdbtnTopology.setBounds(402, 454, 203, 23);
-		contentPane.add(rdbtnTopology);
 		
 		button_3 = new Button("Topology 2 - Randomized");
 		button_3.setActionCommand("");
@@ -832,9 +877,37 @@ public class kFrame extends JFrame {
 		btnClearall.setBounds(3, 348, 117, 29);
 		contentPane.add(btnClearall);
 		
-		lblNewLabel = new JLabel("Not Running");
+		lblNewLabel = new JLabel("---");
 		lblNewLabel.setBounds(617, 461, 230, 16);
 		contentPane.add(lblNewLabel);
+		
+		JLabel lblA = new JLabel("a");
+		lblA.setBounds(717, 370, 22, 16);
+		contentPane.add(lblA);
+		
+		textField_56 = new JTextField();
+		textField_56.setText("0.4");
+		textField_56.setColumns(10);
+		textField_56.setBounds(708, 398, 44, 28);
+		contentPane.add(textField_56);
+		
+		JLabel lblB = new JLabel("b");
+		lblB.setBounds(784, 370, 22, 16);
+		contentPane.add(lblB);
+		
+		textField_57 = new JTextField();
+		textField_57.setText("0.4");
+		textField_57.setColumns(10);
+		textField_57.setBounds(775, 398, 44, 28);
+		contentPane.add(textField_57);
+		
+		JLabel lblStatus = new JLabel("Status :");
+		lblStatus.setBounds(431, 461, 108, 16);
+		contentPane.add(lblStatus);
+		
+		checkbox_1 = new Checkbox("Enable a-b | Tes");
+		checkbox_1.setBounds(404, 387, 257, 23);
+		contentPane.add(checkbox_1);
 	}
 	
 	public boolean checkboxTicked()

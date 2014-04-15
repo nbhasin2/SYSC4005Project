@@ -24,6 +24,9 @@ public final static int SERVER_IDLE = -1;
 	private boolean[][] queueIsconnected;
 	private int iterations;
 	private kFrame kfrm;
+	private double num1, num2, runRan;
+	private boolean testUni=false;
+	
 	
 	
 	/**
@@ -52,6 +55,22 @@ public final static int SERVER_IDLE = -1;
 		queueIsconnected = new boolean[N][timeSlotCount];
 	}
 	
+	public Topology1(boolean tesUNIF, double one, double two, int timeSlotCount, double probability[], double lambdas[], int policy, int iterations, kFrame kf) {//AbstractPolicy1 policy, int iterations) {
+		assert(N == probability.length);
+		testUni = tesUNIF;
+		this.timeSlotCount = timeSlotCount;		
+		this.probability = probability;
+		this.lambdas = lambdas;
+		//this.policy = policy;
+		//this.policy.setSimulationSystem(this);
+		Policy = policy;
+		this.iterations = iterations;
+		nextNext(one,two);
+		kfrm = kf;
+		serverStates = new int[timeSlotCount];
+		queueLength = new int[N][timeSlotCount];		
+		queueIsconnected = new boolean[N][timeSlotCount];
+	}
 	
 	/**
 	 * @return The number of queues in the system
@@ -123,11 +142,11 @@ public final static int SERVER_IDLE = -1;
 		}
 		if(Policy == 2)
 		{
-			allocateServerLCQ(currentTimeSlot);
+			allocateServerLCQ(currentTimeSlot, testUni);
 		}
 		if(Policy == 3)
 		{
-			allocateServerRAN(currentTimeSlot);
+			allocateServerRAN(currentTimeSlot, testUni);
 		}
 		//policy.allocateServer(currentTimeSlot);
 		
@@ -269,7 +288,7 @@ public final static int SERVER_IDLE = -1;
 		}		
 	}
 	
-	public void allocateServerRAN(int t) {
+	public void allocateServerRAN(int t, boolean tesUniform) {
 		ArrayList<Integer> connectedQueues = new ArrayList<Integer>();
 		for (int n = 0; n < getN(); n++) {
 			if (isConnected(n, t)  && !isEmpty(n, t - 1)) {
@@ -282,13 +301,21 @@ public final static int SERVER_IDLE = -1;
 			setServerState(t, SERVER_IDLE);
 			return;
 		}
-		int n = (int) Math.floor(Math.random()* count); //system.getRandomStream().next() * count);
+		if(tesUniform)
+		{
+			int n = (int) Math.floor(nxtnxt()* count); 
+			setServerState(t, connectedQueues.get(n));	
+		}
+		else
+		{
+			int n = (int) Math.floor(Math.random()* count); //system.getRandomStream().next() * count);
 		
-		setServerState(t, connectedQueues.get(n));		
+			setServerState(t, connectedQueues.get(n));		
+		}
 	}
 	
 	
-	public void allocateServerLCQ(int t) {
+	public void allocateServerLCQ(int t, boolean tesUniform) {
 		ArrayList<Integer> longestQueues = new ArrayList<Integer>();
 		
 		int longestLength = 0; 
@@ -311,11 +338,38 @@ public final static int SERVER_IDLE = -1;
 			if (longestQueues.size() == 1) {
 				setServerState(t, longestQueues.get(0));
 			} else {
-				int n = (int) Math.floor(Math.random() * longestQueues.size());//system.getRandomStream().next() * longestQueues.size());
-				
-				setServerState(t, longestQueues.get(n));	
+				if(tesUniform)
+				{
+					int n = (int) Math.floor(nxtnxt() * longestQueues.size());
+					setServerState(t, longestQueues.get(n));	
+				}
+				else
+				{
+					int n = (int) Math.floor(Math.random() * longestQueues.size());//system.getRandomStream().next() * longestQueues.size());
+					setServerState(t, longestQueues.get(n));	
+				}
 			}
 		}		
 	}
 	
+	//uniform 
+	public void nextNext(double num1, double num2){
+		this.num1=num1;
+		this.num2=num2;
+		runRan=-1;
+		
+	}
+	
+	public double nxtnxt()
+	{
+		if(runRan==-1)
+		{
+			runRan = Math.random();
+		}
+		else
+		{
+			runRan=(runRan+ ((num2 + num1) * Math.random() + num1))%1;
+		}
+		return runRan;
+	}
 }
