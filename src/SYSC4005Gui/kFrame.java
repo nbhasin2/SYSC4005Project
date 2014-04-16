@@ -1133,7 +1133,9 @@ public class kFrame extends JFrame {
 						"Enter the data and run the simulation one by one.\n" +
 						"It might take about 15-20 sec for a simulation to complete so please be patient.\n"+
 						"Before clicking on plot please make sure there is some data in MeanValue Box\n" +
-						"Always click on clear before starting new simulation."+"\n\nby Nishant Bhasin"+"\nVer. 2.3");
+						"Always click on clear before starting new simulation.\n"+
+						
+						"\n\nby Nishant Bhasin"+"\nVer. 2.3");
 				//ShowDialogBox();
 			}
 		});
