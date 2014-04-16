@@ -23,12 +23,25 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Checkbox;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.JRadioButton;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.LogarithmicAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.ApplicationFrame;
+import org.jfree.ui.RefineryUtilities;
+
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
 
@@ -127,6 +140,7 @@ public class kFrame extends JFrame {
 	private Checkbox checkbox_1;
 	private JProgressBar progressBar;
 	private JTextField textField_58;
+	private JButton btnPlotData;
 
 	/**
 	 * Launch the application.
@@ -149,7 +163,7 @@ public class kFrame extends JFrame {
 	 */
 	public kFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 867, 508);
+		setBounds(100, 100, 867, 534);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -294,7 +308,7 @@ public class kFrame extends JFrame {
 					 if(checkbox_1.getState())
 					 {
 						 Topology1 top = new Topology1(true,Double.parseDouble(textField_56.getText()),Double.parseDouble(textField_57.getText()),timeSlots, probability, lambdas, 3, iterations,frameThis);
-						 top.runAndPrintToFile("Topology3-LCQ.txt");
+						 top.runAndPrintToFile("Topology3-LCQ--1.txt");
 					 }
 					 else
 					 {
@@ -545,40 +559,40 @@ public class kFrame extends JFrame {
 		contentPane.add(textField_13);
 		
 		separator = new JSeparator();
-		separator.setBackground(Color.GRAY);
-		separator.setBounds(10, 342, 851, 9);
+		separator.setBackground(Color.LIGHT_GRAY);
+		separator.setBounds(3, 345, 851, 9);
 		contentPane.add(separator);
 		
 		lblSysc_1 = new JLabel("Simulation Result");
 		lblSysc_1.setFont(new Font("Calibri", Font.BOLD, 21));
-		lblSysc_1.setBounds(144, 354, 155, 16);
+		lblSysc_1.setBounds(144, 363, 155, 16);
 		contentPane.add(lblSysc_1);
 		
 		lblMeanvalue = new JLabel("MeanValue");
-		lblMeanvalue.setBounds(11, 387, 73, 16);
+		lblMeanvalue.setBounds(10, 406, 73, 16);
 		contentPane.add(lblMeanvalue);
 		
 		lblUpperci = new JLabel("UpperCI");
-		lblUpperci.setBounds(11, 421, 73, 16);
+		lblUpperci.setBounds(10, 440, 73, 16);
 		contentPane.add(lblUpperci);
 		
 		lblLowerci = new JLabel("LowerCI");
-		lblLowerci.setBounds(11, 449, 73, 16);
+		lblLowerci.setBounds(10, 468, 73, 16);
 		contentPane.add(lblLowerci);
 		
 		textField_14 = new JTextArea();
-		textField_14.setBounds(115, 379, 257, 28);
+		textField_14.setBounds(114, 398, 257, 28);
 		contentPane.add(textField_14);
 		textField_14.setColumns(10);
 
 		textField_15 = new JTextArea();// new JTextField();
 		textField_15.setColumns(10);
-		textField_15.setBounds(115, 414, 257, 28);
+		textField_15.setBounds(114, 433, 257, 28);
 		contentPane.add(textField_15);
 		
 		textField_16 = new JTextArea();//new JTextField();
 		textField_16.setColumns(10);
-		textField_16.setBounds(115, 449, 257, 28);
+		textField_16.setBounds(114, 468, 257, 28);
 		contentPane.add(textField_16);
 		
 		lblP_1 = new JLabel("p2");
@@ -670,17 +684,17 @@ public class kFrame extends JFrame {
 		contentPane.add(textField_28);
 		
 		checkbox = new Checkbox("Enable lambda run from 1 to 10 ");
-		checkbox.setBounds(404, 421, 257, 23);
+		checkbox.setBounds(404, 438, 257, 23);
 		contentPane.add(checkbox);
 		
 		separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
-		separator_1.setBounds(388, 352, 12, 122);
+		separator_1.setBounds(388, 364, 12, 142);
 		contentPane.add(separator_1);
 		
 		lblProjectProperties = new JLabel("Simulation Properties");
 		lblProjectProperties.setFont(new Font("Calibri", Font.BOLD, 21));
-		lblProjectProperties.setBounds(467, 354, 198, 16);
+		lblProjectProperties.setBounds(463, 363, 198, 16);
 		contentPane.add(lblProjectProperties);
 		
 		button_3 = new Button("Topology 2 - Randomized");
@@ -1025,7 +1039,7 @@ public class kFrame extends JFrame {
 		separator_4.setBounds(227, 225, 12, 118);
 		contentPane.add(separator_4);
 		
-		JButton btnClearall = new JButton("ClearAll");
+		JButton btnClearall = new JButton("Clear Result");
 		btnClearall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textField_14.setText("");
@@ -1035,11 +1049,11 @@ public class kFrame extends JFrame {
 				progressBar.setValue(0);
 			}
 		});
-		btnClearall.setBounds(3, 348, 117, 29);
+		btnClearall.setBounds(3, 360, 117, 29);
 		contentPane.add(btnClearall);
 		
 		lblNewLabel = new JLabel("---");
-		lblNewLabel.setBounds(583, 461, 65, 16);
+		lblNewLabel.setBounds(596, 480, 65, 16);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblA = new JLabel("a");
@@ -1063,15 +1077,15 @@ public class kFrame extends JFrame {
 		contentPane.add(textField_57);
 		
 		JLabel lblStatus = new JLabel("Status :");
-		lblStatus.setBounds(431, 461, 108, 16);
+		lblStatus.setBounds(431, 479, 108, 16);
 		contentPane.add(lblStatus);
 		
 		checkbox_1 = new Checkbox("Enable a-b | Tes");
-		checkbox_1.setBounds(404, 387, 257, 23);
+		checkbox_1.setBounds(404, 403, 257, 23);
 		contentPane.add(checkbox_1);
 		
 		progressBar = new JProgressBar();
-		progressBar.setBounds(684, 457, 146, 20);
+		progressBar.setBounds(715, 475, 146, 20);
 		contentPane.add(progressBar);
 		progressBar.setMaximum(100);
 		progressBar.setMinimum(0);
@@ -1085,6 +1099,19 @@ public class kFrame extends JFrame {
 		textField_58.setColumns(10);
 		textField_58.setBounds(808, 398, 44, 28);
 		contentPane.add(textField_58);
+		
+		btnPlotData = new JButton("Plot Data");
+		btnPlotData.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//DrawSemiLogChart();
+				 final PlotGraph demo = new PlotGraph("Semi Log Chart", frameThis);
+			        demo.pack();
+			        RefineryUtilities.centerFrameOnScreen(demo);
+			        demo.setVisible(true);
+			}
+		});
+		btnPlotData.setBounds(726, 436, 117, 29);
+		contentPane.add(btnPlotData);
 	}
 	
 	public boolean checkboxTicked()
@@ -1130,6 +1157,53 @@ public class kFrame extends JFrame {
 		frame.pack();
 		frame.setVisible(true);
 
+	}
+	
+	public void DrawSemiLogChart()
+	{
+		final XYSeries s1 = new XYSeries("Series 1");
+		String temp = textField_14.getText();
+		ArrayList<String> tlist = (ArrayList<String>) Arrays.asList(temp.split(","));
+		
+//		for(int i=1;i<tlist.size();i++)
+//		{
+//			s1.add(Double.parseDouble(tlist.get(i)), 10 * Math.exp(i / 5.0));
+//		}
+		for (int i = 1; i <= 50; i++) {
+        	if(i%10==0)
+        	{
+            s1.add(i, 10 * Math.exp(i / 5.0));
+        	}
+		}
+		final XYSeriesCollection dataset = new XYSeriesCollection();
+        dataset.addSeries(s1);
+
+
+        final JFreeChart chart = ChartFactory.createXYLineChart(
+                "Semi Log Chart",          // chart title
+                "Category",               // domain axis label
+                "Value",                  // range axis label
+                dataset,                  // data
+                PlotOrientation.VERTICAL,
+                true,                     // include legend
+                true,
+                false
+            );
+        
+        final XYPlot plot = chart.getXYPlot();
+        final NumberAxis domainAxis = new NumberAxis("x");
+        final NumberAxis rangeAxis = new LogarithmicAxis("Log(y)");
+        plot.setDomainAxis(domainAxis);
+        plot.setRangeAxis(rangeAxis);
+        chart.setBackgroundPaint(Color.white);
+        plot.setOutlinePaint(Color.black);
+        final ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+        setContentPane(chartPanel);
+        
+        ChartFrame frame = new ChartFrame("First", chart);
+		frame.pack();
+		frame.setVisible(true);
 	}
 	
 	public JProgressBar prog()

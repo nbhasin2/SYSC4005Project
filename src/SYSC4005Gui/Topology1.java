@@ -24,9 +24,9 @@ public final static int SERVER_IDLE = -1;
 	private boolean[][] queueIsconnected;
 	private int iterations;
 	private kFrame kfrm;
-	private double num1, num2, runRan;
+	private double num1, num2, runRan=-1;
 	private boolean testUni=false;
-	
+
 	
 	
 	/**
@@ -71,6 +71,8 @@ public final static int SERVER_IDLE = -1;
 		queueLength = new int[N][timeSlotCount];		
 		queueIsconnected = new boolean[N][timeSlotCount];
 	}
+	
+	
 	
 	/**
 	 * @return The number of queues in the system
@@ -263,7 +265,13 @@ public final static int SERVER_IDLE = -1;
 	
 	public int BernoulliGeneratorNext(double d) {
 
-		if (Math.random() < d) {
+		if(testUni)
+		{
+			 if (nxtnxt() < d) {
+					return 1;
+				}
+		}
+		else if (Math.random() < d) {
 			return 1;
 		}
 		return 0;
@@ -304,7 +312,9 @@ public final static int SERVER_IDLE = -1;
 		if(tesUniform)
 		{
 			int n = (int) Math.floor(nxtnxt()* count); 
-			setServerState(t, connectedQueues.get(n));	
+			System.out.println("------"+n);
+			setServerState(t, connectedQueues.get(n));		
+			
 		}
 		else
 		{
@@ -312,6 +322,7 @@ public final static int SERVER_IDLE = -1;
 		
 			setServerState(t, connectedQueues.get(n));		
 		}
+		//setServerState(t, connectedQueues.get(n));	
 	}
 	
 	
@@ -360,6 +371,19 @@ public final static int SERVER_IDLE = -1;
 		
 	}
 	
+//	public double nxtnxt()
+//	{
+//		if(runRan==-1)
+//		{
+//			runRan = Math.random();
+//		}
+//		else
+//		{
+//			runRan=(runRan+ ((num2 + num1) * Math.random() + num1))%1;
+//		}
+//		return runRan;
+//	}
+	
 	public double nxtnxt()
 	{
 		if(runRan==-1)
@@ -368,8 +392,22 @@ public final static int SERVER_IDLE = -1;
 		}
 		else
 		{
-			runRan=(runRan+ ((num2 + num1) * Math.random() + num1))%1;
+			runRan= (runRan+calculateV())%1;
 		}
 		return runRan;
+	}
+	
+//	@Override
+//	public double next1() {
+//		if (lastRanNum == -1){
+//			lastRanNum = Math.random();
+//		}else{
+//			lastRanNum = (lastRanNum + calculateV()) % 1;
+//		}
+//		return lastRanNum;
+//	}
+
+	private double calculateV(){
+		return (num1 + num2) * Math.random() + num1;
 	}
 }

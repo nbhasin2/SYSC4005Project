@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 
+
 public class Topology2 {
 public final static int SERVER_IDLE = -1;
 	
@@ -302,11 +303,20 @@ public final static int SERVER_IDLE = -1;
 	}
 	
 	public int BernoulliGeneratorNext(double d) {
-
-		if (Math.random() < d) {
+		if(testUni)
+		{
+			 if (nxtnxt() < d) {
+					return 1;
+				}
+		}
+		else if (Math.random() < d) {
 			return 1;
 		}
 		return 0;
+//		if (Math.random() < d) {
+//			return 1;
+//		}
+//		return 0;
 	}
 	
 	//policies
@@ -470,23 +480,52 @@ public final static int SERVER_IDLE = -1;
 	}
 	
 	//uniform 
-		public void nextNext(double num1, double num2){
-			this.num1=num1;
-			this.num2=num2;
-			runRan=-1;
-			
-		}
+//		public void nextNext(double num1, double num2){
+//			this.num1=num1;
+//			this.num2=num2;
+//			runRan=-1;
+//			
+//		}
+//		
+//		public double nxtnxt()
+//		{
+//			if(runRan==-1)
+//			{
+//				runRan = Math.random();
+//			}
+//			else
+//			{
+//				runRan=(runRan+ ((num2 + num1) * Math.random() + num1))%1;
+//			}
+//			return runRan;
+//		}
 		
-		public double nxtnxt()
+	public double nxtnxt()
+	{
+		if(runRan==-1)
 		{
-			if(runRan==-1)
-			{
-				runRan = Math.random();
-			}
-			else
-			{
-				runRan=(runRan+ ((num2 + num1) * Math.random() + num1))%1;
-			}
-			return runRan;
+			runRan = Math.random();
 		}
+		else
+		{
+			runRan= (runRan+calculateV())%1;
+		}
+		return runRan;
+	}
+	
+//	@Override
+//	public double next1() {
+//		if (lastRanNum == -1){
+//			lastRanNum = Math.random();
+//		}else{
+//			lastRanNum = (lastRanNum + calculateV()) % 1;
+//		}
+//		return lastRanNum;
+//	}
+
+	private double calculateV(){
+		return (num1 + num2) * Math.random() + num1;
+	}
+		
+		
 }
