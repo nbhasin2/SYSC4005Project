@@ -1,7 +1,10 @@
 package SYSC4005Gui;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.TextArea;
 import java.awt.TextField;
 
@@ -34,11 +37,17 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.annotations.XYLineAnnotation;
 import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYBarRenderer;
+import org.jfree.chart.renderer.xy.XYErrorRenderer;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYIntervalSeries;
+import org.jfree.data.xy.XYIntervalSeriesCollection;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
@@ -146,10 +155,7 @@ public class kFrame extends JFrame {
 	private JProgressBar progressBar;
 	private JTextField textField_58;
 	private JButton btnPlotData;
-	private JLabel lblByNishantBhaisn;
 	private JButton btnInfo;
-	private JTextArea textPane;
-	private JButton btnClearDebugWindow;
 
 	/**
 	 * Launch the application.
@@ -172,7 +178,7 @@ public class kFrame extends JFrame {
 	 */
 	public kFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 867, 675);
+		setBounds(100, 100, 867, 551);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -1120,10 +1126,6 @@ public class kFrame extends JFrame {
 		btnPlotData.setBounds(726, 436, 117, 29);
 		contentPane.add(btnPlotData);
 		
-		lblByNishantBhaisn = new JLabel("by Nishant Bhaisn");
-		lblByNishantBhaisn.setBounds(368, 50, 117, 16);
-		contentPane.add(lblByNishantBhaisn);
-		
 		btnInfo = new JButton("info ?");
 		btnInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1142,36 +1144,15 @@ public class kFrame extends JFrame {
 		separator_5.setBackground(Color.LIGHT_GRAY);
 		separator_5.setBounds(3, 518, 851, 9);
 		contentPane.add(separator_5);
-		
-		JLabel lblDebugWindow = new JLabel("Debug Window");
-		lblDebugWindow.setBounds(396, 534, 101, 16);
-		contentPane.add(lblDebugWindow);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 562, 851, 85);
-		contentPane.add(scrollPane);
-		
-		textPane = new JTextArea();
-		scrollPane.setViewportView(textPane);
-		
-		btnClearDebugWindow = new JButton("Clear Window");
-		btnClearDebugWindow.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				textPane.setText("");
-			}
-		});
-		btnClearDebugWindow.setBounds(3, 529, 117, 29);
-		contentPane.add(btnClearDebugWindow);
 		message();
 	}
 	
 	
 	public void message()
 	{
-        TextAreaOutputStream taos = new TextAreaOutputStream( textPane, 60 );
-        PrintStream ps = new PrintStream( taos );
-        System.setOut( ps );
-        System.setErr( ps );
+//        PrintStream ps = new PrintStream(n );
+//        System.setOut( ps );
+//        System.setErr( ps );
 
 
 	}
@@ -1224,16 +1205,33 @@ public class kFrame extends JFrame {
 	public void DrawSemiLogChart()
 	{
 		  final XYSeries s1 = new XYSeries("Series 1");
-			String temp = getTF14().getText();
+		  final XYSeries s2 = new XYSeries("Upper");
+		  final XYSeries s3 = new XYSeries("Lower");
+		  
+		  XYIntervalSeriesCollection errorsDataSet = new XYIntervalSeriesCollection();
+		    XYIntervalSeries errors = new XYIntervalSeries("errors");
+		    
+		    Stroke stroke = new BasicStroke();
+            Paint paint = Color.black;
 
+            //XYLineAnnotation vertical;//= new XYLineAnnotation(x, y-dy, x, y+dy, stroke, paint);
+		    
+			String temp = getTF14().getText();
+			String top = getTF15().getText();
+			String bottom = getTF16().getText();
+			
 			String a[] = temp.split(",");
 			System.out.println(Arrays.toString(a));
 
+			String b[] = top.split(",");
+			String c[] = bottom.split(",");
 
 			for(int j=1;j<=a.length;j++)
 			{
 
 				s1.add(Math.exp(j / 5.0),Double.parseDouble(a[j-1]));
+				s2.add(Math.exp(j / 5.0),Double.parseDouble(b[j-1]));//Up
+				s3.add(Math.exp(j / 5.0),Double.parseDouble(c[j-1]));//Low
 				
 			}
 			
@@ -1241,8 +1239,7 @@ public class kFrame extends JFrame {
 
 	        final XYSeriesCollection dataset = new XYSeriesCollection();
 	        dataset.addSeries(s1);
-	       // dataset.addSeries(s2);
-	        //dataset.addSeries(s3);
+
 
 	        final JFreeChart chart = ChartFactory.createXYLineChart(
 	            "Generated Graph",          // chart title
@@ -1254,6 +1251,17 @@ public class kFrame extends JFrame {
 	            true,
 	            false
 	        );
+	        
+	        
+	        for(int j=1;j<=a.length;j++)
+			{
+
+				s1.add(Math.exp(j / 5.0),Double.parseDouble(a[j-1]));
+				//XYLineAnnotation vertical = new XYLineAnnotation(Math.exp(j / 5.0), Double.parseDouble(b[j-1]), Math.exp(j / 5.0), Double.parseDouble([j-1]), stroke, paint);
+				
+               // chart.getXYPlot().addAnnotation(vertical);
+				
+			}
 
 	        final XYPlot plot = chart.getXYPlot();
 	        final NumberAxis domainAxis = new NumberAxis("x");
@@ -1261,17 +1269,26 @@ public class kFrame extends JFrame {
 	        plot.setDomainAxis(domainAxis);
 	        plot.setRangeAxis(rangeAxis);
 	        chart.setBackgroundPaint(Color.white);
+	        
 	        plot.setOutlinePaint(Color.black);
 	        final ChartPanel chartPanel = new ChartPanel(chart);
 	        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 	        
 	        
 
-	    
-			
+		                
+	       
+
+            //plot.addAnnotation(vertical);
+
+
+
+		    
+		    
+		    
 			//JFreeChart chart2 = ChartFactory.create
 			// create and display a frame...
-			ChartFrame frame = new ChartFrame("First", chart);
+			ChartFrame frame = new ChartFrame("Graph Plot", chart);
 			frame.pack();
 			frame.setVisible(true);
 	}
@@ -1296,4 +1313,6 @@ public class kFrame extends JFrame {
 		  frame.setVisible(true);
 		  frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		  }
+	  
+	
 }
