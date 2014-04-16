@@ -41,10 +41,12 @@ import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.annotations.XYLineAnnotation;
 import org.jfree.chart.axis.LogarithmicAxis;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.entity.XYAnnotationEntity;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.renderer.xy.XYErrorRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYIntervalSeries;
 import org.jfree.data.xy.XYIntervalSeriesCollection;
@@ -156,6 +158,7 @@ public class kFrame extends JFrame {
 	private JTextField textField_58;
 	private JButton btnPlotData;
 	private JButton btnInfo;
+	private Checkbox checkbox_2;
 
 	/**
 	 * Launch the application.
@@ -1068,7 +1071,7 @@ public class kFrame extends JFrame {
 		contentPane.add(btnClearall);
 		
 		lblNewLabel = new JLabel("---");
-		lblNewLabel.setBounds(596, 480, 65, 16);
+		lblNewLabel.setBounds(589, 511, 65, 16);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblA = new JLabel("a");
@@ -1092,7 +1095,7 @@ public class kFrame extends JFrame {
 		contentPane.add(textField_57);
 		
 		JLabel lblStatus = new JLabel("Status :");
-		lblStatus.setBounds(431, 479, 108, 16);
+		lblStatus.setBounds(424, 510, 108, 16);
 		contentPane.add(lblStatus);
 		
 		checkbox_1 = new Checkbox("Enable a-b | Tes");
@@ -1100,7 +1103,7 @@ public class kFrame extends JFrame {
 		contentPane.add(checkbox_1);
 		
 		progressBar = new JProgressBar();
-		progressBar.setBounds(715, 475, 146, 20);
+		progressBar.setBounds(708, 506, 146, 20);
 		contentPane.add(progressBar);
 		progressBar.setMaximum(100);
 		progressBar.setMinimum(0);
@@ -1134,18 +1137,17 @@ public class kFrame extends JFrame {
 						"It might take about 15-20 sec for a simulation to complete so please be patient.\n"+
 						"Before clicking on plot please make sure there is some data in MeanValue Box\n" +
 						"Always click on clear before starting new simulation.\n"+
-						
-						"\n\nby Nishant Bhasin"+"\nVer. 2.3");
+						"Repo - https://bitbucket.org/nbhasin/sysc-4005-project-simulator"+
+						"\n\nby Nishant Bhasin"+"\nVer. 2.3.3");
 				//ShowDialogBox();
 			}
 		});
 		btnInfo.setBounds(800, 19, 61, 29);
 		contentPane.add(btnInfo);
 		
-		JSeparator separator_5 = new JSeparator();
-		separator_5.setBackground(Color.LIGHT_GRAY);
-		separator_5.setBounds(3, 518, 851, 9);
-		contentPane.add(separator_5);
+		checkbox_2 = new Checkbox("Show / Hide Lines for Confidence Interval");
+		checkbox_2.setBounds(404, 473, 311, 23);
+		contentPane.add(checkbox_2);
 		message();
 	}
 	
@@ -1241,9 +1243,12 @@ public class kFrame extends JFrame {
 
 	        final XYSeriesCollection dataset = new XYSeriesCollection();
 	        dataset.addSeries(s1);
+	        dataset.addSeries(s2);
+	        dataset.addSeries(s3);
 
+	        
 
-	        final JFreeChart chart = ChartFactory.createXYLineChart(
+	         JFreeChart chart = ChartFactory.createXYLineChart(
 	            "Generated Graph",          // chart title
 	            "Category",               // domain axis label
 	            "Value",                  // range axis label
@@ -1254,16 +1259,7 @@ public class kFrame extends JFrame {
 	            false
 	        );
 	        
-	        
-	        for(int j=1;j<=a.length;j++)
-			{
 
-				s1.add(Math.exp(j / 5.0),Double.parseDouble(a[j-1]));
-				//XYLineAnnotation vertical = new XYLineAnnotation(Math.exp(j / 5.0), Double.parseDouble(b[j-1]), Math.exp(j / 5.0), Double.parseDouble([j-1]), stroke, paint);
-				
-               // chart.getXYPlot().addAnnotation(vertical);
-				
-			}
 
 	        final XYPlot plot = chart.getXYPlot();
 	        final NumberAxis domainAxis = new NumberAxis("x");
@@ -1272,24 +1268,25 @@ public class kFrame extends JFrame {
 	        plot.setRangeAxis(rangeAxis);
 	        chart.setBackgroundPaint(Color.white);
 	        
+	        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+	        if(checkbox_2.getState())
+	        {
+	        	renderer.setSeriesLinesVisible(1, true);
+		        renderer.setSeriesLinesVisible(2, true);
+	        }
+	        else
+	        {
+	        	renderer.setSeriesLinesVisible(1, false);
+		        renderer.setSeriesLinesVisible(2, false);
+	        }
+	        renderer.setSeriesShapesVisible(1, true);
 	        plot.setOutlinePaint(Color.black);
+	        plot.setRenderer(renderer);
 	        final ChartPanel chartPanel = new ChartPanel(chart);
 	        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 	        
 	        
 
-		                
-	       
-
-            //plot.addAnnotation(vertical);
-
-
-
-		    
-		    
-		    
-			//JFreeChart chart2 = ChartFactory.create
-			// create and display a frame...
 			ChartFrame frame = new ChartFrame("Graph Plot", chart);
 			frame.pack();
 			frame.setVisible(true);
@@ -1315,6 +1312,4 @@ public class kFrame extends JFrame {
 		  frame.setVisible(true);
 		  frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		  }
-	  
-	
 }
