@@ -267,11 +267,11 @@ public final static int SERVER_IDLE = -1;
 		
 		PrintWriter writer = null;
 		try {
-			writer = new PrintWriter(new FileOutputStream(new File(fileName), true));
-			writer.println("lambda, mean, lowerCI, upperCI");
-			writer.println(lambdas[0] + ", " + mean + ", " + lower + ", " + upper);
+			//writer = new PrintWriter(new FileOutputStream(new File(fileName), true));
+			//writer.println("lambda, mean, lowerCI, upperCI");
+			//writer.println(lambdas[0] + ", " + mean + ", " + lower + ", " + upper);
 			//writer.println("debug An = " + debugTotalAn);
-			writer.println("Average = " + getAverageQueueOccupancy());
+			//writer.println("Average = " + getAverageQueueOccupancy());
 			
 //			if(kfrm.checkboxTicked())
 //			{
@@ -286,9 +286,6 @@ public final static int SERVER_IDLE = -1;
 //				kfrm.getTF16().setText(""+lower);
 //			}
 		
-		} catch (FileNotFoundException e) {
-		
-			e.printStackTrace();
 		} finally {
 			if (writer != null) {
 				writer.close();
