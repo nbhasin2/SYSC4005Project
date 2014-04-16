@@ -31,7 +31,8 @@ public final static int SERVER_IDLE = -1;
 	
 	/**
 	 * Construct the Simulation System.
-	 * 
+	 * Inspired from : https://github.com/neaket/SYSC-4005-Project 
+	 * Default Repo on bitbucket  : https://bitbucket.org/nbhasin/sysc-4005-project-simulator
 	 * @param stream A stream of random fnumbers
 	 * @param timeSlotCount The maximum time slots
 	 * @param probability The probability that a queue is connected to the server

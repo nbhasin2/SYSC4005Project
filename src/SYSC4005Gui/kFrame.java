@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import java.awt.Button;
 import java.awt.Color;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
@@ -23,6 +24,7 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Checkbox;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -44,6 +46,9 @@ import org.jfree.ui.RefineryUtilities;
 
 import javax.swing.JButton;
 import javax.swing.JProgressBar;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
 public class kFrame extends JFrame {
 
@@ -141,6 +146,10 @@ public class kFrame extends JFrame {
 	private JProgressBar progressBar;
 	private JTextField textField_58;
 	private JButton btnPlotData;
+	private JLabel lblByNishantBhaisn;
+	private JButton btnInfo;
+	private JTextArea textPane;
+	private JButton btnClearDebugWindow;
 
 	/**
 	 * Launch the application.
@@ -163,13 +172,13 @@ public class kFrame extends JFrame {
 	 */
 	public kFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 867, 534);
+		setBounds(100, 100, 867, 675);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblSysc = new JLabel("SYSC 4005 - Project Simulation");
+		lblSysc = new JLabel("SYSC 4005 - Project Simulator");
 		lblSysc.setFont(new Font("Calibri", Font.BOLD, 21));
 		lblSysc.setBounds(311, 22, 277, 16);
 		contentPane.add(lblSysc);
@@ -1104,14 +1113,67 @@ public class kFrame extends JFrame {
 		btnPlotData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//DrawSemiLogChart();
-				 final PlotGraph demo = new PlotGraph("Semi Log Chart", frameThis);
-			        demo.pack();
-			        RefineryUtilities.centerFrameOnScreen(demo);
-			        demo.setVisible(true);
+				 //final PlotGraph demo = new PlotGraph("Semi Log Chart", frameThis);
+			    DrawSemiLogChart();
 			}
 		});
 		btnPlotData.setBounds(726, 436, 117, 29);
 		contentPane.add(btnPlotData);
+		
+		lblByNishantBhaisn = new JLabel("by Nishant Bhaisn");
+		lblByNishantBhaisn.setBounds(368, 50, 117, 16);
+		contentPane.add(lblByNishantBhaisn);
+		
+		btnInfo = new JButton("info ?");
+		btnInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(frameThis,"" +"How to ?\n"+
+						"Enter the data and run the simulation one by one.\n" +
+						"It might take about 15-20 sec for a simulation to complete so please be patient.\n"+
+						"Before clicking on plot please make sure there is some data in MeanValue Box\n" +
+						"Always click on clear before starting new simulation."+"\n\nby Nishant Bhasin"+"\nVer. 2.3");
+				//ShowDialogBox();
+			}
+		});
+		btnInfo.setBounds(800, 19, 61, 29);
+		contentPane.add(btnInfo);
+		
+		JSeparator separator_5 = new JSeparator();
+		separator_5.setBackground(Color.LIGHT_GRAY);
+		separator_5.setBounds(3, 518, 851, 9);
+		contentPane.add(separator_5);
+		
+		JLabel lblDebugWindow = new JLabel("Debug Window");
+		lblDebugWindow.setBounds(396, 534, 101, 16);
+		contentPane.add(lblDebugWindow);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 562, 851, 85);
+		contentPane.add(scrollPane);
+		
+		textPane = new JTextArea();
+		scrollPane.setViewportView(textPane);
+		
+		btnClearDebugWindow = new JButton("Clear Window");
+		btnClearDebugWindow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				textPane.setText("");
+			}
+		});
+		btnClearDebugWindow.setBounds(3, 529, 117, 29);
+		contentPane.add(btnClearDebugWindow);
+		message();
+	}
+	
+	
+	public void message()
+	{
+        TextAreaOutputStream taos = new TextAreaOutputStream( textPane, 60 );
+        PrintStream ps = new PrintStream( taos );
+        System.setOut( ps );
+        System.setErr( ps );
+
+
 	}
 	
 	public boolean checkboxTicked()
@@ -1161,53 +1223,77 @@ public class kFrame extends JFrame {
 	
 	public void DrawSemiLogChart()
 	{
-		final XYSeries s1 = new XYSeries("Series 1");
-		String temp = textField_14.getText();
-		ArrayList<String> tlist = (ArrayList<String>) Arrays.asList(temp.split(","));
-		
-//		for(int i=1;i<tlist.size();i++)
-//		{
-//			s1.add(Double.parseDouble(tlist.get(i)), 10 * Math.exp(i / 5.0));
-//		}
-		for (int i = 1; i <= 50; i++) {
-        	if(i%10==0)
-        	{
-            s1.add(i, 10 * Math.exp(i / 5.0));
-        	}
-		}
-		final XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(s1);
+		  final XYSeries s1 = new XYSeries("Series 1");
+			String temp = getTF14().getText();
+
+			String a[] = temp.split(",");
+			System.out.println(Arrays.toString(a));
 
 
-        final JFreeChart chart = ChartFactory.createXYLineChart(
-                "Semi Log Chart",          // chart title
-                "Category",               // domain axis label
-                "Value",                  // range axis label
-                dataset,                  // data
-                PlotOrientation.VERTICAL,
-                true,                     // include legend
-                true,
-                false
-            );
-        
-        final XYPlot plot = chart.getXYPlot();
-        final NumberAxis domainAxis = new NumberAxis("x");
-        final NumberAxis rangeAxis = new LogarithmicAxis("Log(y)");
-        plot.setDomainAxis(domainAxis);
-        plot.setRangeAxis(rangeAxis);
-        chart.setBackgroundPaint(Color.white);
-        plot.setOutlinePaint(Color.black);
-        final ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        setContentPane(chartPanel);
-        
-        ChartFrame frame = new ChartFrame("First", chart);
-		frame.pack();
-		frame.setVisible(true);
+			for(int j=1;j<=a.length;j++)
+			{
+
+				s1.add(Math.exp(j / 5.0),Double.parseDouble(a[j-1]));
+				
+			}
+			
+
+
+	        final XYSeriesCollection dataset = new XYSeriesCollection();
+	        dataset.addSeries(s1);
+	       // dataset.addSeries(s2);
+	        //dataset.addSeries(s3);
+
+	        final JFreeChart chart = ChartFactory.createXYLineChart(
+	            "Generated Graph",          // chart title
+	            "Category",               // domain axis label
+	            "Value",                  // range axis label
+	            dataset,                  // data
+	            PlotOrientation.VERTICAL,
+	            true,                     // include legend
+	            true,
+	            false
+	        );
+
+	        final XYPlot plot = chart.getXYPlot();
+	        final NumberAxis domainAxis = new NumberAxis("x");
+	        final NumberAxis rangeAxis = new LogarithmicAxis("Log(y)");
+	        plot.setDomainAxis(domainAxis);
+	        plot.setRangeAxis(rangeAxis);
+	        chart.setBackgroundPaint(Color.white);
+	        plot.setOutlinePaint(Color.black);
+	        final ChartPanel chartPanel = new ChartPanel(chart);
+	        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
+	        
+	        
+
+	    
+			
+			//JFreeChart chart2 = ChartFactory.create
+			// create and display a frame...
+			ChartFrame frame = new ChartFrame("First", chart);
+			frame.pack();
+			frame.setVisible(true);
 	}
 	
 	public JProgressBar prog()
 	{
 		return progressBar;
 	}
+	
+	  public void ShowDialogBox(){
+		  final JFrame frame = new JFrame("Show Message Dialog");
+		  JButton button = new JButton("Click Me");
+		  button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(frame,"Roseindia.net");
+				}
+		  }
+						 
+				  );
+		  frame.getContentPane().add(button);
+		  frame.setSize(400, 400);
+		  frame.setVisible(true);
+		  frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		  }
 }
