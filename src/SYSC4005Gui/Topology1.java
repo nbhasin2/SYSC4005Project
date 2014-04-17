@@ -31,14 +31,7 @@ public final static int SERVER_IDLE = -1;
 	
 	/**
 	 * Construct the Simulation System.
-	 * Inspired from : https://github.com/neaket/SYSC-4005-Project 
 	 * Default Repo on bitbucket  : https://bitbucket.org/nbhasin/sysc-4005-project-simulator
-	 * @param stream A stream of random fnumbers
-	 * @param timeSlotCount The maximum time slots
-	 * @param probability The probability that a queue is connected to the server
-	 * @param lambda The parameter in bernoulli used to determine how often new tasks are added to a queue 
-	 * @param policy The scheduling policy
-	 * @param iterations The number of iterations to run for
 	 */
 	public Topology1(int timeSlotCount, double probability[], double lambdas[], int policy, int iterations, kFrame kf){
 		assert(N == probability.length);
@@ -62,8 +55,7 @@ public final static int SERVER_IDLE = -1;
 		this.timeSlotCount = timeSlotCount;		
 		this.probability = probability;
 		this.lambdas = lambdas;
-		//this.policy = policy;
-		//this.policy.setSimulationSystem(this);
+		
 		Policy = policy;
 		this.iterations = iterations;
 		nextNext(one,two);
@@ -75,62 +67,41 @@ public final static int SERVER_IDLE = -1;
 	
 	
 	
-	/**
-	 * @return The number of queues in the system
-	 */
+
 	public int getN() {
 		return N;
 	}
 
-	/**
-	 * @param n The queue index
-	 * @return The probability that queue n is connected.
-	 */
+
 	private double getProbability(int n) {
 		return probability[n];
 	}
 	
-	/**
-	 * @param n The queue index
-	 * @param t The time slot number
-	 * @return True if the queue is connected to the server at the time slot; otherwise false
-	 */
+
 	public boolean isConnected(int n, int t) {
 		return queueIsconnected[n][t];
 	}
 	
-	/**
-	 * @param t The time slot number
-	 * @param state The state, either SERVER_IDLE or the index of the queue that is connected
-	 */
+
 	public void setServerState(int t, int state) {
 		this.serverStates[t] = state;		
 		//System.out.println("Server state at " + t + " is " + state);
 	}
 
 
-	/**
-	 * @param n The index of the queue
-	 * @param t The time slot number
-	 * @return True if the queue is empty at the time slot, otherwise false
-	 */
+
 	public boolean isEmpty(int n, int t) {
 		if (t < 0) return true;
 		return getQueueLength(n, t) == 0;
 	}
-	
-	/**
-	 * Simulates the system.  Note this method can only be called once for each iteration.
-	 */
+
 	private void simulateSystem() {
 		for (int t = 0; t < timeSlotCount; t++) {
 			advanceTimeSlot();
 		}
 	}
 	
-	/**
-	 * Advances the simulation to the next timeslot.
-	 */
+
 	private void advanceTimeSlot() {
 		assert(currentTimeSlot < timeSlotCount);
 		
@@ -151,7 +122,7 @@ public final static int SERVER_IDLE = -1;
 		{
 			allocateServerRAN(currentTimeSlot, testUni);
 		}
-		//policy.allocateServer(currentTimeSlot);
+		
 		
 		for (int n = 0; n < N; n++) {
 			int Xn = 0;		
@@ -171,23 +142,16 @@ public final static int SERVER_IDLE = -1;
 			queueLength[n][currentTimeSlot] = Xn - Hn + An;
 		}			
 		
-		//System.out.println("Queue Lengths " + queueLength[0][currentTimeSlot] + " " + queueLength[1][currentTimeSlot] + " " + queueLength[2][currentTimeSlot] + " " + queueLength[3][currentTimeSlot] + " " + queueLength[4][currentTimeSlot]);
-		currentTimeSlot++;
+			currentTimeSlot++;
 	}
 
 
-	/**
-	 * @param n The queue index
-	 * @param t The time slot number
-	 * @return The length of queue n at time slot t.
-	 */
+
 	public int getQueueLength(int n, int t) {
 		return queueLength[n][t];
 	}
 	
-	/**
-	 * @return The average queue length of all queues for the entire simulation.
-	 */
+
 	private double getAverageQueueOccupancy() {
 		double total = 0;
 		for (int n = 0; n < N; n++) {
@@ -204,9 +168,7 @@ public final static int SERVER_IDLE = -1;
 		currentTimeSlot = 0;	
 	}
 	
-	/**
-	 * @param Prints the simulation results to the file specified.
-	 */
+
 	public void runAndPrintToFile(String fileName) {
 		double totals[] = new double[iterations];	
 		double total = 0;
@@ -244,24 +206,7 @@ public final static int SERVER_IDLE = -1;
 			kfrm.getTF15().setText(""+upper);
 			kfrm.getTF16().setText(""+lower);
 		}
-		/*
-		PrintWriter writer = null;
-		try {
-			//writer = new PrintWriter(new FileOutputStream(new File(fileName), true));
-			//writer.println("lambda, mean, lowerCI, upperCI");
-		    //writer.println(lambdas[0] + ", " + mean + ", " + lower + ", " + upper);
 
-
-			//writer.println("Average = " + getAverageQueueOccupancy());
-		
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			if (writer != null) {
-				writer.close();
-			}
-		}
-		*/
 	}
 	
 	public int BernoulliGeneratorNext(double d) {
@@ -323,7 +268,7 @@ public final static int SERVER_IDLE = -1;
 		
 			setServerState(t, connectedQueues.get(n));		
 		}
-		//setServerState(t, connectedQueues.get(n));	
+	
 	}
 	
 	
@@ -372,19 +317,7 @@ public final static int SERVER_IDLE = -1;
 		
 	}
 	
-//	public double nxtnxt()
-//	{
-//		if(runRan==-1)
-//		{
-//			runRan = Math.random();
-//		}
-//		else
-//		{
-//			runRan=(runRan+ ((num2 + num1) * Math.random() + num1))%1;
-//		}
-//		return runRan;
-//	}
-	
+
 	public double nxtnxt()
 	{
 		if(runRan==-1)
@@ -398,15 +331,6 @@ public final static int SERVER_IDLE = -1;
 		return runRan;
 	}
 	
-//	@Override
-//	public double next1() {
-//		if (lastRanNum == -1){
-//			lastRanNum = Math.random();
-//		}else{
-//			lastRanNum = (lastRanNum + calculateV()) % 1;
-//		}
-//		return lastRanNum;
-//	}
 
 	private double calculateV(){
 		return (num1 + num2) * Math.random() + num1;
