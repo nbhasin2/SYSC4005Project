@@ -159,6 +159,9 @@ public class kFrame extends JFrame {
 	private JButton btnPlotData;
 	private JButton btnInfo;
 	private Checkbox checkbox_2;
+	
+	
+	private double lambds[];
 
 	/**
 	 * Launch the application.
@@ -206,6 +209,16 @@ public class kFrame extends JFrame {
 			 probability[2] = Double.parseDouble(textField_20.getText());
 			 probability[3]	= Double.parseDouble(textField_23.getText());
 			 probability[4]	= Double.parseDouble(textField_26.getText());	 
+			 
+			 lambds = new double[10];
+			 if(checkbox.getState())
+			 {
+				 for (int i = 1; i <= 10; i++) {
+					 //probability[i] = Double.parseDouble(textField_11.getText());
+					 lambds[i-1] = lambda1*i;
+				 }
+			 }
+			 
 			 if(checkbox.getState())
 			 {
 				 /*
@@ -292,7 +305,14 @@ public class kFrame extends JFrame {
 			 probability[2] = Double.parseDouble(textField_21.getText());
 			 probability[3]	= Double.parseDouble(textField_24.getText());
 			 probability[4]	= Double.parseDouble(textField_27.getText());	
-			
+			 lambds = new double[10];
+			 if(checkbox.getState())
+			 {
+				 for (int i = 1; i <= 10; i++) {
+					 //probability[i] = Double.parseDouble(textField_11.getText());
+					 lambds[i-1] = lambda1*i;
+				 }
+			 }
 			 if(checkbox.getState())
 			 {
 				 /*
@@ -384,7 +404,16 @@ public class kFrame extends JFrame {
 			 probability[1]	= Double.parseDouble(textField_19.getText());
 			 probability[2] = Double.parseDouble(textField_22.getText());
 			 probability[3]	= Double.parseDouble(textField_25.getText());
-			 probability[4]	= Double.parseDouble(textField_28.getText());			 
+			 probability[4]	= Double.parseDouble(textField_28.getText());	
+			 lambds = new double[10];
+			 if(checkbox.getState())
+			 {
+				 for (int i = 1; i <= 10; i++) {
+					 //probability[i] = Double.parseDouble(textField_11.getText());
+					 lambds[i-1] = lambda1*i;
+				 }
+			 }
+			 
 			 if(checkbox.getState())
 			 {
 				 /*
@@ -731,7 +760,13 @@ public class kFrame extends JFrame {
 				//double[] lambdas = new double[N];
 				double probability[][] = new double[N][K];
 				double lambdas[] = new double[N];
+				 lambds = new double[10];
 				
+					 for (int i = 1; i <= 10; i++) {
+						 //probability[i] = Double.parseDouble(textField_11.getText());
+						 lambds[i-1] = lambda*i;
+					 }
+				 
 			for (int i = 0; i < N; i++) {
 				for (int k = 0; k < K; k++) {
 					probability[i][k] = p;
@@ -842,7 +877,13 @@ public class kFrame extends JFrame {
 				//double[] lambdas = new double[N];
 				double probability[][] = new double[N][K];
 				double lambdas[] = new double[N];
-				
+				 lambds = new double[10];
+					
+				 for (int i = 1; i <= 10; i++) {
+					 //probability[i] = Double.parseDouble(textField_11.getText());
+					 lambds[i-1] = lambda*i;
+				 }
+				 
 			for (int i = 0; i < N; i++) {
 				for (int k = 0; k < K; k++) {
 					probability[i][k] = p;
@@ -950,6 +991,13 @@ public class kFrame extends JFrame {
 				//double[] lambdas = new double[N];
 				double probability[][] = new double[N][K];
 				double lambdas[] = new double[N];
+				
+				 lambds = new double[10];
+					
+				 for (int i = 1; i <= 10; i++) {
+					 //probability[i] = Double.parseDouble(textField_11.getText());
+					 lambds[i-1] = lambda*i;
+				 }
 				
 			for (int i = 0; i < N; i++) {
 				for (int k = 0; k < K; k++) {
@@ -1138,7 +1186,7 @@ public class kFrame extends JFrame {
 						"Before clicking on plot please make sure there is some data in MeanValue Box\n" +
 						"Always click on clear before starting new simulation.\n"+
 						"Repo - https://bitbucket.org/nbhasin/sysc-4005-project-simulator"+
-						"\n\nby Nishant Bhasin"+"\nVer. 2.3.3");
+						"\n\nby Nishant Bhasin"+"\nVer. 3.0");
 				//ShowDialogBox();
 			}
 		});
@@ -1229,13 +1277,17 @@ public class kFrame extends JFrame {
 
 			String b[] = top.split(",");
 			String c[] = bottom.split(",");
-
+			
 			for(int j=1;j<=a.length;j++)
 			{
-
-				s1.add(Math.exp(j / 5.0),Double.parseDouble(a[j-1]));
-				s2.add(Math.exp(j / 5.0),Double.parseDouble(b[j-1]));//Up
-				s3.add(Math.exp(j / 5.0),Double.parseDouble(c[j-1]));//Low
+				//System.out.println(lambds[j-1]);
+				s1.add(lambds[j-1],Double.parseDouble(a[j-1]));
+				s2.add(lambds[j-1],Double.parseDouble(b[j-1]));//Up
+				s3.add(lambds[j-1],Double.parseDouble(c[j-1]));//Low
+				
+				//s1.add(Math.exp(j / 5.0),Double.parseDouble(a[j-1]));
+				//s2.add(Math.exp(j / 5.0),Double.parseDouble(b[j-1]));//Up
+				//s3.add(Math.exp(j / 5.0),Double.parseDouble(c[j-1]));//Low
 				
 			}
 			
